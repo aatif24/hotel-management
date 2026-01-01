@@ -69,10 +69,10 @@ export function LoginForm() {
 
   return (
     <Card shadow="sm" className="w-full max-w-sm">
-      <CardHeader className="flex flex-col gap-1">
-        <p className="text-xl font-semibold">Login</p>
+      <CardHeader className="flex flex-col gap-1 capitalize">
+        <p className="text-xl font-semibold">Sign in</p>
         <p className="text-sm text-default-500">
-          Welcome back to Mehfil Dashboard
+          to continue to Mehfil Dashboard
         </p>
       </CardHeader>
 

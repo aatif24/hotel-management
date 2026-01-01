@@ -56,4 +56,5 @@ export const cacheKeys = {
   order: (id: string) => `order:${id}`,
   ordersByTable: (tableId: number) => `orders:table:${tableId}`,
   activeOrders: () => "orders:active",
+  circuitBreaker: () => "db:circuit",
 };

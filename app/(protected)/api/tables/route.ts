@@ -8,6 +8,7 @@ import {
   handleApiError,
 } from "@lib/api/response";
 import { CACHE_TTL, cacheKeys, getCached } from "@lib/redis";
+import { withCircuitBreaker } from "@lib/circuit-breaker";
 
 export async function GET() {
   const user = await getCurrentUser();
@@ -18,22 +19,29 @@ export async function GET() {
     console.error("Error fetching tables:", error);
     return handleApiError(error);
   }
-  const res = await getCached(
-    cacheKeys.tables(),
-    async () => {
-      try {
-        const tables = await prisma.table.findMany({
-          orderBy: {
-            number: "asc",
-          },
-        });
-        return tables;
-      } catch (error) {
-        console.error("Error fetching tables:", error);
-        return error;
-      }
-    },
-    CACHE_TTL.SHORT,
-  );
-  return successResponse(res);
+  try {
+    const res = await withCircuitBreaker(() =>
+      getCached(
+        cacheKeys.tables(),
+        async () => {
+          try {
+            const tables = await prisma.table.findMany({
+              orderBy: {
+                number: "asc",
+              },
+            });
+            return tables;
+          } catch (error) {
+            console.error("Error fetching tables:", error);
+            return error;
+          }
+        },
+        CACHE_TTL.SHORT,
+      ),
+    );
+    return successResponse(res);
+  } catch (err) {
+    console.error(err);
+    return handleApiError(err);
+  }
 }
