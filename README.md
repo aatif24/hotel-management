@@ -11,6 +11,9 @@ yarn dev
 # or
 pnpm dev
 # or
+
+bun prisma db generate
+
 bun dev
 ```
 

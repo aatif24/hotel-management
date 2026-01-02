@@ -9,6 +9,7 @@ import {
 } from "@lib/api/response";
 import { CACHE_TTL, cacheKeys, getCached } from "@lib/redis";
 import { withCircuitBreaker } from "@lib/circuit-breaker";
+import { withRetry } from "@lib/db-retry";
 
 export async function GET() {
   const user = await getCurrentUser();
@@ -25,10 +26,12 @@ export async function GET() {
         cacheKeys.tables(),
         async () => {
           try {
-            const tables = await prisma.table.findMany({
-              orderBy: {
-                number: "asc",
-              },
+            const tables = await withRetry(() => {
+              return prisma.table.findMany({
+                orderBy: {
+                  number: "asc",
+                },
+              });
             });
             return tables;
           } catch (error) {
