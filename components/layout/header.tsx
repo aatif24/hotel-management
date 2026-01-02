@@ -11,17 +11,17 @@ export default async function HeaderComponent() {
       <section className="container mx-auto px-4 md:px-6 h-12 flex items-center justify-between">
         <Image
           src="/logo.png"
-          className="dark:hidden inline-block"
+          className="dark:hidden inline-block w-16"
           alt="Logo"
-          width={32}
-          height={32}
+          width={100}
+          height={0}
         />
         <Image
           src="/logo-dark.png"
-          className="hidden dark:inline-block"
+          className="hidden dark:inline-block w-16"
           alt="Logo"
-          width={32}
-          height={32}
+          width={100}
+          height={0}
         />
         <div className="flex items-center gap-4">
           <ThemeSwitcher />
