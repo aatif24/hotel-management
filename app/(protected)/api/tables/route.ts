@@ -28,6 +28,17 @@ export async function GET() {
           try {
             const tables = await withRetry(() => {
               return prisma.table.findMany({
+                include: {
+                  orders: {
+                    include: {
+                      items: {
+                        include: {
+                          menuItem: true,
+                        },
+                      },
+                    },
+                  },
+                },
                 orderBy: {
                   number: "asc",
                 },

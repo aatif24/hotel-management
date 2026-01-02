@@ -5,8 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../lib/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -115,6 +114,7 @@ model OrderItem {
   quantity   Int
   price      Float
   notes      String?
+  status     String   @default("pending") // pending, completed, cancelled
   createdAt  DateTime @default(now())
   order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
   menuItem   MenuItem @relation(fields: [menuItemId], references: [id])

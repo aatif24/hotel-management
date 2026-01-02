@@ -7,7 +7,7 @@ export default async function HeaderComponent() {
   if (!user) return null;
 
   return (
-    <div className="w-screen shadow-sm">
+    <div className="sticky top-0 z-50 backdrop-blur-sm w-screen shadow-sm">
       <section className="container mx-auto px-4 md:px-6 h-12 flex items-center justify-between">
         <Image
           src="/logo.png"
